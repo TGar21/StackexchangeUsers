@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 
 interface InterfaceApi {
-    @GET("/2.3/users?order=desc&sort=reputation&inname=Vitinger&site=stackoverflow&filter=!0Z-LvhbSNwb7VsNYilJam(tyY")
+    @GET("/2.3/users?order=desc&sort=reputation&inname=Tadeas&site=stackoverflow&filter=!0Z-LvhbSNwb7VsNYilJam(tyY")
     fun getData(): Call<UserData>
 
 

@@ -1,42 +1,49 @@
 package com.example.stackexchange.ui.main
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.stackexchange.data.model.UserData
 import com.example.stackexchange.data.model.UserDataItem
 import com.example.stackexchange.databinding.UserItemBinding
 
-class UsersAdapter:RecyclerView.Adapter<UsersAdapter.ViewHolder>() {
+class UsersAdapter(private val context: Context) :
+    RecyclerView.Adapter<UsersAdapter.ViewHolder>() {
 
-    private lateinit var binding: UserItemBinding
-    private var users = mutableListOf<UserDataItem>()
+    private var users = UserData(emptyList())
 
     @SuppressLint("NotifyDataSetChanged")
-    fun insertData(inserted: List<UserDataItem>) {
-        users.clear()
-        users.addAll(inserted)
+    fun insertData(inserted: UserData) {
+        users = inserted
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(private val binding: UserItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun setData(model: UserDataItem) {
-            with(binding) {
-                displayName.text = model.display_name
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        fun bind(item: UserDataItem) {
+            UserItemBinding.bind(this.itemView).apply {
+                displayName.text = item.display_name
+                id.text = item.user_id.toString()
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        binding = UserItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(
+            UserItemBinding
+                .inflate(LayoutInflater.from(context), viewGroup, false)
+                .root
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setData(users[position])
+        val item = users.items[position]
+        holder.bind(item)
     }
 
     override fun getItemCount(): Int {
-        return users.size
+        return users.items.size
     }
 }

@@ -14,7 +14,6 @@ import com.example.stackexchange.ui.main.UsersAdapter
 import com.example.stackexchange.util.State
 
 private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
@@ -29,13 +28,11 @@ class MainFragment : Fragment() {
     private lateinit var adapter: UsersAdapter
 
     private var param1: String? = null
-    private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -59,7 +56,6 @@ class MainFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         setupObservers()
         setupSearch()
-//        viewModel.fetchDataTest()
     }
 
     override fun onDestroyView() {
@@ -119,46 +115,20 @@ class MainFragment : Fragment() {
         adapter.insertData(users)
     }
 
-//
-//    private fun setupObservers() {
-//        viewModel.getUsers("name").observe(this, Observer {
-//            it?.let { resource ->
-//                when (resource.status) {
-//                    SUCCESS -> {
-//                        recyclerView.visibility = View.VISIBLE
-//                        progressBar.visibility = View.GONE
-//                        resource.data?.let { users -> retrieveList(users) }
-//                    }
-//                    ERROR -> {
-//                        recyclerView.visibility = View.VISIBLE
-//                        progressBar.visibility = View.GONE
-//                        Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
-//                    }
-//                    LOADING -> {
-//                        progressBar.visibility = View.VISIBLE
-//                        recyclerView.visibility = View.GONE
-//                    }
-//                }
-//            }
-//        })
-//    }
-
     companion object {
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
+         * @param param1 Parameter 2.
          * @return A new instance of fragment MainScreenFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(param1: String) =
             MainFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
                 }
             }
     }

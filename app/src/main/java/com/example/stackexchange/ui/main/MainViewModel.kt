@@ -10,10 +10,6 @@ class MainViewModel : ViewModel() {
     val usersLiveData: LiveData<UserData> = _usersLiveData
     var state = MutableLiveData<State>()
 
-    fun fetchDataTest(){
-        Model().fetchByName("Petr", this)
-    }
-
     fun fetchData(query:String){
         Model().fetchByName(query, this)
     }

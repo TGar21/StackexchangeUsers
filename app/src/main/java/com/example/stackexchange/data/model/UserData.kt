@@ -1,5 +1,5 @@
-package com.example.stackexchange.api
+package com.example.stackexchange.data.model
 
 data class UserData(
-    val items: ArrayList<UserDataItem>
+    val items: List<UserDataItem>
 )

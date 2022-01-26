@@ -9,5 +9,8 @@ private const val QUERY = "/2.3/users?order=desc&sort=reputation&site=stackoverf
 
 interface ApiService {
     @GET(QUERY)
-    fun getUsersByName(@Query("inname") name:String): Call<UserData>
+    fun getUsersByName(
+        @Query("inname") name: String,
+//        @Query("max") limit: Int
+    ): Call<UserData>
 }

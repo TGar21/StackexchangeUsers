@@ -5,8 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.stackexchange.R
 import com.example.stackexchange.data.model.UserData
 import com.example.stackexchange.databinding.FragmentMainBinding
 import com.example.stackexchange.ui.main.MainViewModel
@@ -50,10 +53,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = UsersAdapter(requireContext())
-        binding.listUsers.adapter = adapter
-        binding.listUsers.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        setupAdapter()
         setupObservers()
         setupSearch()
     }
@@ -61,6 +61,17 @@ class MainFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun setupAdapter(){
+        adapter = UsersAdapter(requireContext())
+        binding.listUsers.adapter = adapter
+        binding.listUsers.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        adapter.onItemClick = { user ->
+            val bundle = bundleOf("user" to user.display_name)
+            findNavController().navigate(R.id.action_main_to_detail, bundle)
+        }
     }
 
     private fun setupSearch() {

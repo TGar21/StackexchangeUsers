@@ -13,6 +13,7 @@ import com.example.stackexchange.databinding.UserItemBinding
 class UsersAdapter(private val context: Context) :
     RecyclerView.Adapter<UsersAdapter.ViewHolder>() {
 
+    var onItemClick: ((UserDataItem) -> Unit)? = null
     private var users = UserData(emptyList())
 
     @SuppressLint("NotifyDataSetChanged")
@@ -22,6 +23,13 @@ class UsersAdapter(private val context: Context) :
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+        init {
+            itemView.setOnClickListener {
+                onItemClick?.invoke(users.items[adapterPosition])
+            }
+        }
+
         fun bind(item: UserDataItem) {
             UserItemBinding.bind(this.itemView).apply {
                 displayName.text = item.display_name

@@ -13,6 +13,10 @@
         <action
             android:id="@+id/action_main_to_detail"
             app:destination="@id/detailFragment" />
+        <argument
+            android:name="user"
+            android:defaultValue=""
+            app:argType="string" />
     </fragment>
 
     <fragment

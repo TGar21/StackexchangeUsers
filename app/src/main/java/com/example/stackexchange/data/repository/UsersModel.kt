@@ -1,7 +1,9 @@
 package com.example.stackexchange.data.repository
 
 import android.util.Log
+import com.example.stackexchange.data.api.ApiFactory
 import com.example.stackexchange.data.api.ApiService
+import com.example.stackexchange.data.api.BASE_URL
 import com.example.stackexchange.data.model.UserData
 import com.example.stackexchange.ui.main.MainViewModel
 import com.example.stackexchange.util.State
@@ -11,21 +13,12 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-const val LIMIT = 2
+const val LIMIT = 2 //todo change to 20
 
-class Model {
-    private var BASE_URL = "https://api.stackexchange.com"
+class UsersModel {
 
-    private fun getApiService(): ApiService {
-        return Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(BASE_URL)
-            .build()
-            .create(ApiService::class.java)
-    }
-
-    fun fetchByName(query: String, viewModel: MainViewModel) {
-        val retrofitData = getApiService().getUsersByName(query)
+    fun fetchUsersByName(query: String, viewModel: MainViewModel) {
+        val retrofitData = ApiFactory().buildApiService().getUsersByName(query, LIMIT)
         viewModel.state.value = State.IN_PROGRESS
 
         retrofitData.enqueue(object : Callback<UserData> {

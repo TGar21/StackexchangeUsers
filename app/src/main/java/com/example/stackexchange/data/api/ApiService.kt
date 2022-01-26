@@ -1,5 +1,6 @@
 package com.example.stackexchange.data.api
 
+import com.example.stackexchange.data.model.TagData
 import com.example.stackexchange.data.model.UserData
 import retrofit2.Call
 import retrofit2.http.GET
@@ -20,8 +21,8 @@ interface ApiService {
 
     @GET(QUERY_USERS_BY_NAME)
     fun getTagsByID(
-        @Path("id") id: String,
-    ): Call<UserData>
+        @Path("id") id: Int,
+    ): Call<TagData>
 
 
 }

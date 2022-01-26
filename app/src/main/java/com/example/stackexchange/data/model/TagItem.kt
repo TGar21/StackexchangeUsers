@@ -1,6 +1,6 @@
 package com.example.stackexchange.data.model
 
-data class Item(
+data class TagItem(
     val answer_count: Int,
     val answer_score: Int,
     val question_count: Int,

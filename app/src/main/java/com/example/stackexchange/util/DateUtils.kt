@@ -4,8 +4,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class DateUtils {
-    fun millisToDate(millis: Long) {
+    fun millisToDate(millis: Long): String {
         val formatter = SimpleDateFormat("dd/MM/yyyy")
-        val dateString = formatter.format(Date(millis))
+        return formatter.format(Date(millis))
     }
 }

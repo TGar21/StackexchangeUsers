@@ -16,12 +16,8 @@ import com.example.stackexchange.ui.main.MainViewModel
 import com.example.stackexchange.ui.main.UsersAdapter
 import com.example.stackexchange.util.State
 
-private const val ARG_PARAM1 = "param1"
-
 /**
- * A simple [Fragment] subclass.
- * Use the [MainFragment.newInstance] factory method to
- * create an instance of this fragment.
+ * A simple [Fragment] subclass to show Main screen with user search.
  */
 class MainFragment : Fragment() {
 
@@ -30,24 +26,12 @@ class MainFragment : Fragment() {
     private val viewModel = MainViewModel()
     private lateinit var adapter: UsersAdapter
 
-    private var param1: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
-        viewModel.usersLiveData.observe(viewLifecycleOwner) {
-            adapter.insertData(it)
-        }
         return binding.root
     }
 
@@ -63,13 +47,13 @@ class MainFragment : Fragment() {
         _binding = null
     }
 
-    fun setupAdapter(){
+    private fun setupAdapter(){
         adapter = UsersAdapter(requireContext())
         binding.listUsers.adapter = adapter
         binding.listUsers.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         adapter.onItemClick = { user ->
-            val bundle = bundleOf("user" to user.display_name)
+            val bundle = bundleOf("user_data_item" to user)
             findNavController().navigate(R.id.action_main_to_detail, bundle)
         }
     }
@@ -106,7 +90,7 @@ class MainFragment : Fragment() {
                 State.LOADED -> {
                     listUsers.visibility = View.VISIBLE
                     progress.visibility = View.GONE
-                    retrieveUsers(userItems)
+                    adapter.insertData(userItems)
                 }
                 State.FAILED -> {
                     binding.listUsers.visibility = View.GONE
@@ -116,31 +100,9 @@ class MainFragment : Fragment() {
                     progress.visibility = View.VISIBLE
                     binding.listUsers.visibility = View.GONE
                 }
-                State.INIT -> throw IllegalStateException("${this.javaClass.name}: init state not possible here")
                 null -> throw IllegalStateException("${this.javaClass.name}: null state not possible here")
             }
         }
     }
 
-    private fun retrieveUsers(users: UserData) {
-        adapter.insertData(users)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 2.
-         * @return A new instance of fragment MainScreenFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String) =
-            MainFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                }
-            }
-    }
 }

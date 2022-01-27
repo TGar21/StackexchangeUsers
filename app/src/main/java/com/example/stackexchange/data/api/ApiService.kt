@@ -19,7 +19,7 @@ interface ApiService {
         @Query("pagesize") limit: Int
     ): Call<UserData>
 
-    @GET(QUERY_USERS_BY_NAME)
+    @GET(QUERY_TAGS_BY_USER)
     fun getTagsByID(
         @Path("id") id: Int,
     ): Call<TagData>

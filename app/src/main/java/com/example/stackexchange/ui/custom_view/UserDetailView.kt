@@ -7,8 +7,6 @@ import android.widget.LinearLayout
 import com.example.stackexchange.data.model.BadgeCounts
 import com.example.stackexchange.databinding.ViewUserDetailBinding
 import com.example.stackexchange.util.DateUtils
-import java.text.SimpleDateFormat
-import java.util.*
 
 class UserDetailView(
     context: Context,

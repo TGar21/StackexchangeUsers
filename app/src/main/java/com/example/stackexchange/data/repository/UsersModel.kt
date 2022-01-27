@@ -13,7 +13,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-const val LIMIT = 2 //todo change to 20
+const val LIMIT = 20
 
 class UsersModel {
 

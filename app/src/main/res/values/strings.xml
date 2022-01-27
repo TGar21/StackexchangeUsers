@@ -5,4 +5,5 @@
     <string name="label_main_fragment">Stackexchange users</string>
     <string name="label_detail_fragment">User</string>
     <string name="user_avatar">User avatar</string>
+    <string name="placeholder">placeholder</string>
 </resources>

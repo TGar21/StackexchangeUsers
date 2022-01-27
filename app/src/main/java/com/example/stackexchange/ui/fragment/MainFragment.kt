@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -47,7 +48,7 @@ class MainFragment : Fragment() {
         _binding = null
     }
 
-    private fun setupAdapter(){
+    private fun setupAdapter() {
         adapter = UsersAdapter(requireContext())
         binding.listUsers.adapter = adapter
         binding.listUsers.layoutManager =
@@ -63,7 +64,7 @@ class MainFragment : Fragment() {
             isSubmitButtonEnabled = true
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    viewModel.fetchData(query?:"")
+                    viewModel.fetchData(query ?: "")
                     return false
                 }
 
@@ -95,6 +96,11 @@ class MainFragment : Fragment() {
                 State.FAILED -> {
                     binding.listUsers.visibility = View.GONE
                     progress.visibility = View.GONE
+                    Toast.makeText(
+                        requireContext(),
+                        "Users won't be shown. Loading failed.",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
                 State.IN_PROGRESS -> {
                     progress.visibility = View.VISIBLE

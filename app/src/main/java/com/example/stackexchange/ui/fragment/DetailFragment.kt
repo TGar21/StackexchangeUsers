@@ -5,12 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.stackexchange.R
+import com.example.stackexchange.data.model.TagData
+import com.example.stackexchange.data.model.UserDataItem
 import com.example.stackexchange.databinding.FragmentDetailBinding
-import com.example.stackexchange.databinding.FragmentMainBinding
+import com.example.stackexchange.ui.main.DetailViewModel
+import com.example.stackexchange.util.State
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
@@ -23,6 +23,10 @@ class DetailFragment : Fragment() {
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel = DetailViewModel()
+    private var tagNames = emptyList<String>()
+    private val user = getUserFromArguments()
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -46,7 +50,47 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.detailText.text = arguments?.getString("user")
+        setupObservers()
+        viewModel.fetchTags(user?.user_id ?: 0)
+        setUserDetail()
+    }
+
+    /*
+    *
+    *   newUserName: String,
+            newReputation: String,
+            newTags: String,
+            newBadges: String,
+            newLocation: String,
+            newCreationDate: String*/
+    private fun setUserDetail() {
+        if (user != null) {
+            binding.userDetail.setAllTexts(
+                user.display_name,
+                user.reputation.toString(),
+                tagNames.toString(),
+                user.badge_counts,
+                user.location,
+                user.creation_date
+            )
+        }
+    }
+
+    private fun getUserFromArguments(): UserDataItem? =
+        arguments?.getParcelable("user_data_item")
+
+    private fun setupObservers() {
+        viewModel.tagsLiveData.observe(viewLifecycleOwner) { tags ->
+            saveTags(tags)
+        }
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            if (state == State.IN_PROGRESS) binding.progress.visibility = View.VISIBLE
+            else binding.progress.visibility = View.GONE
+        }
+    }
+
+    private fun saveTags(tags: TagData?) {
+        tagNames = tags?.items?.map { it.tag_name } ?: emptyList()
     }
 
     override fun onDestroyView() {
